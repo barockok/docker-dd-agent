@@ -1,6 +1,6 @@
 FROM debian:jessie
 
-MAINTAINER Datadog <package@datadoghq.com>
+MAINTAINER barock <zidmubarock@gmail.com>
 
 ENV DOCKER_DD_AGENT=yes \
     AGENT_VERSION=1:5.10.1-1
@@ -28,9 +28,8 @@ RUN mv /etc/dd-agent/datadog.conf.example /etc/dd-agent/datadog.conf \
  && chmod +x /etc/init.d/datadog-agent \
  && rm /etc/dd-agent/conf.d/network.yaml.default
 
-# Add Docker check
-COPY conf.d/docker_daemon.yaml /etc/dd-agent/conf.d/docker_daemon.yaml
-
+# removing all conf.d
+RUN cd /etc/dd-agent/conf.d/ && ls ./ | grep ".yaml" | xargs rm
 COPY entrypoint.sh /entrypoint.sh
 
 # Extra conf.d and checks.d
